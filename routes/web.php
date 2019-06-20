@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Auth::routes();
 
 Route::resource('/users', 'Admin\UserController');
+
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+

@@ -1,5 +1,7 @@
 @extends('layouts.main')
 
+@section('title', 'Users')
+
 @section('content')
     <div class="container mt-5">
         <h1>{{__('Users')}}</h1>
@@ -7,8 +9,8 @@
             @if(($users))
                 <div class="table-responsive">
                     <table>
-                        <caption class="text-center">An example of a responsive table based on <a
-                                href="https://getbootstrap.com/css/#tables-responsive" target="_blank">Bootstrap</a>:
+                        <caption class="text-center">
+                            <a class="btn btn-sm btn-success" href="{{route('users.create')}}">Create New User!</a>
                         </caption>
                         <thead>
                         <tr>
@@ -20,18 +22,26 @@
                         </tr>
                         </thead>
                         <tbody>
+                            @foreach($users as $user)
+                                <tr>
+                                    <td>{{$user->id}}</td>
+                                    <td>{{$user->name}}</td>
+                                    <td>{{$user->email}}</td>
+                                    <td>{{$user->role ? $user->role->name : 'guest'}}</td>
+                                    <td>
+                                        <a class="btn btn-sm btn-success" href="{{route('users.show', $user->id)}}">View</a>
+                                        <a class="btn btn-sm btn-success" href="{{route('users.edit', $user->id)}}">Edit</a>
 
-                        @foreach($users as $user)
-                            <tr>
-                                <td>{{$user->id}}</td>
-                                <td>{{$user->name}}</td>
-                                <td>{{$user->email}}</td>
-                                <td>
-                                    <a class="btn btn-sm btn-success" href="{{route('users.show', $user->id)}}"></a>
-                                    <a class="btn btn-sm btn-success" href="{{route('users.create')}}"></a>
-                                </td>
-                            </tr>
-                        @endforeach
+                                        @component('components.form.one-button-form', [
+                                            'action' => ['Admin\UserController@destroy', $user->id],
+                                            'method' => 'DELETE',
+                                            'title' => 'Delete',
+                                            'attr' => ['class' => 'btn btn-sm btn-danger']
+                                        ])
+                                        @endcomponent
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
