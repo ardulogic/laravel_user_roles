@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/database/migrations/2019_06_19_152057_create_cars_table.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/database/migrations/2014_10_12_100000_create_password_resets_table.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/database/migrations/2014_10_12_000000_create_users_table.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/database/seeds/TestSeeder.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/app/Http/Controllers/Admin/UserController.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/app/User.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/.git/config</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/database/seeds/RoleTableSeeder.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/database/factories/UserFactory.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/app/Role.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/database/migrations/2019_06_19_180333_add_user_role_id_to_user.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/app/Http/Controllers/CarController.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/app/Car.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/database/migrations/2019_06_19_180004_create_roles_table.php</file>
+            <file>file:/S:/Web%20Roots/Laravel/pz2aproject/database/seeds/DatabaseSeeder.php</file>
+        </group>
+    </open-files>
+</project-private>
