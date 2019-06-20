@@ -10,6 +10,12 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('role:admin');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,6 +28,44 @@ class UserController extends Controller
         return view('admin.user.list', ['users' => $users]);
     }
 
+    public function form() {
+        return [
+            'action' => 'Admin\UserController@store',
+            'method' => 'POST',
+            'fields' => [
+                'name' => [
+                    'type' => 'input',
+                    'label' => 'Name',
+                    'value' => '',
+                    'attr' => ['placeholder' => 'Title']
+                ],
+                'email' => [
+                    'type' => 'input',
+                    'label' => 'Email',
+                    'value' => '',
+                    'attr' => ['placeholder' => 'Email']
+                ],
+                'password' => [
+                    'type' => 'password',
+                    'label' => 'Password',
+                    'value' => '',
+                    'attr' => ['placeholder' => 'Password']
+                ],
+                'role' => [
+                    'type' => 'select',
+                    'label' => 'Role',
+                    'options' => Role::pluck('name', 'id'),
+                    'attr' => []
+                ],
+                'save' => [
+                    'type' => 'button',
+                    'title' => 'Save',
+                    'attr' => ''
+                ]
+            ]
+        ];
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -29,48 +73,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $form = [
-            'action' => 'Admin\UserController@store',
-            'method' => 'POST',
-            'fields' => [
-                [
-                    'type' => 'input',
-                    'name' => 'name',
-                    'label' => 'Name',
-                    'value' => '',
-                    'attr' => ['placeholder' => 'Title']
-                ],
-                [
-                    'type' => 'input',
-                    'name' => 'email',
-                    'label' => 'Email',
-                    'value' => '',
-                    'attr' => ['placeholder' => 'Email']
-                ],
-                [
-                    'type' => 'password',
-                    'name' => 'password',
-                    'label' => 'Password',
-                    'value' => '',
-                    'attr' => ['placeholder' => 'Password']
-                ],
-                [
-                    'type' => 'select',
-                    'name' => 'role',
-                    'label' => 'Role',
-                    'options' => Role::pluck('name', 'id'),
-                    'attr' => []
-                ],
-                [
-                    'type' => 'button',
-                    'title' => 'Save',
-                    'attr' => ''
-                ]
-            ]
-        ];
-
         return view('admin.user.create', [
-            'form' => $form
+            'form' => $this->form()
         ]);
     }
 
@@ -92,6 +96,9 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = $request->input('password');
+
+        $role = Role::findOrFail($request->input('role'));
+        $user->role()->associate($role);
         $user->save();
 
         return redirect('/users')->with(['success' => 'User has been created!']);
@@ -105,7 +112,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view('admin.user.view', ['user' => $user]);
     }
 
     /**
@@ -116,7 +125,19 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $form = $this->form();
+        $form['action'] = ['Admin\UserController@update', $id];
+        $form['method'] = 'PUT';
+        $form['fields']['name']['value'] = $user->name;
+        $form['fields']['email']['value'] = $user->email;
+        $form['fields']['role']['value'] = $user->role->name;
+
+        return view('admin.user.edit', [
+            'form' => $form,
+            'user' => $user
+        ]);
     }
 
     /**
@@ -128,7 +149,25 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email',
+            'role' => 'required'
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+
+        if ($request->input('password')) {
+            $user->password = $request->input('password');
+        }
+
+        $role = Role::findOrFail($request->input('role'));
+        $user->role()->associate($role);
+        $user->save();
+
+        return redirect('/users')->with(['success' => 'User has been updated!']);
     }
 
     /**
@@ -139,6 +178,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+
+        return redirect('/users')->with(['success' => 'User has been deleted!']);
     }
 }

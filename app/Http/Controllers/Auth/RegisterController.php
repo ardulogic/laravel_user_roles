@@ -69,8 +69,5 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
-    
-    protected function showRegistrationForm() {
-        return "eik nx";
-    }
+
 }
